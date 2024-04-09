@@ -32,7 +32,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.appbars.BodyList
+import com.example.appbars.data.Body
 import com.example.appbars.data.data
 
 
@@ -40,9 +40,9 @@ import com.example.appbars.data.data
 @Composable
 fun MyApp(
     navController: NavController,
-
+    cardViewModel: CardViewModel = viewModel(),
 ) {
-
+    val cardUiState by cardViewModel.uiState.collectAsState()
     Scaffold(
         topBar =  {
             MediumTopAppBar(
@@ -102,11 +102,31 @@ fun MyApp(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(8.dp)) {
+
             items(data) {
-                BodyList(body = it)
+
+                BodyList(
+                    body = it,
+                    like = cardUiState.likedList[it.id])
+                    {
+                        cardViewModel.updateFun( it.id)
+                    }
 
             }
         }
-
     }
+}
+
+
+@Composable
+fun BodyList(
+    body: Body,
+    like:Boolean,
+    likedFunc: () -> Unit
+){
+    BodyItem(img =  body.drawableRes,
+        desc = body.stringRes,
+        liked = like,
+        likedFun = likedFunc
+    )
 }

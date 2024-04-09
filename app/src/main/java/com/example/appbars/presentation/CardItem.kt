@@ -24,6 +24,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -33,13 +34,15 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
 fun BodyItem(
     @DrawableRes img: Int,
     @StringRes desc: Int,
     liked: Boolean,
-    likedFun: ()-> Unit
+    likedFun: ()-> Unit,
+
 ) {
     //var like by rememberSaveable { mutableStateOf(false) }
     var clicked by rememberSaveable { mutableStateOf(false) }
@@ -64,7 +67,7 @@ fun BodyItem(
                 .padding(horizontal = 8.dp, vertical = 6.dp)
         )
         IconButton(modifier = Modifier.weight(1f),
-            onClick = { likedFun() }) {
+            onClick = {likedFun() }) {
             Icon(imageVector = if (!liked) Icons.Filled.FavoriteBorder else Icons.Filled.Favorite,
                 contentDescription = if (liked) "Dislike" else "Like")
         }

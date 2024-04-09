@@ -56,12 +56,3 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-
-@Composable
-fun BodyList(
-     body: Body,
-     cardViewModel: CardViewModel = viewModel()
-){
-    val cardUiState by cardViewModel.uiState.collectAsState()
-    BodyItem(body.drawableRes, body.stringRes,  cardUiState.liked) { cardViewModel.updateFun() }
-}

@@ -1,5 +1,6 @@
 package com.example.appbars.presentation
 
 data class CardUiState(
-    val liked: Boolean = false
+
+    val likedList: List<Boolean> = (mutableListOf(false, false, false, false, false, false, false, false, false, false))
 )

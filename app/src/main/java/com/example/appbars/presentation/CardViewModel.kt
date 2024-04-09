@@ -10,11 +10,14 @@ class CardViewModel: ViewModel() {
     private val _uiState = MutableStateFlow(CardUiState())
     val uiState: StateFlow<CardUiState> = _uiState.asStateFlow()
 
-    fun updateFun(){
-        val like = _uiState.value.liked
+
+    fun updateFun(id: Int) {
+        val likeList = _uiState.value.likedList.toMutableList()
+        val like = _uiState.value.likedList[id]
+        likeList[id] = !like
         _uiState.update {
             it.copy(
-                liked = !like
+                likedList = likeList
             )
         }
     }
