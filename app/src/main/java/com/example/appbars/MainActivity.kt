@@ -22,6 +22,7 @@ import com.example.appbars.data.Body
 import com.example.appbars.presentation.BodyItem
 import com.example.appbars.presentation.AddScreen
 import com.example.appbars.presentation.CardViewModel
+import com.example.appbars.presentation.LikedScreen
 import com.example.appbars.presentation.MyApp
 import com.example.appbars.ui.theme.AppBarsTheme
 
@@ -37,16 +38,20 @@ class MainActivity : ComponentActivity() {
 
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    color = MaterialTheme.colorScheme.background,
                 ) {
+                    val cardViewModel: CardViewModel = viewModel()
                     val navController  = rememberNavController()
                     NavHost(navController = navController, startDestination = "MainScreen") {
                         composable("MainScreen") {
-                            MyApp(navController = navController)
+                            MyApp(navController = navController, cardViewModel = cardViewModel)
                         }
 
                         composable("AddScreen") {
                             AddScreen(navController = navController)
+                        }
+                        composable("LikedScreen") {
+                            LikedScreen(navController = navController, cardViewModel = cardViewModel)
                         }
                     }
                     //MyApp()

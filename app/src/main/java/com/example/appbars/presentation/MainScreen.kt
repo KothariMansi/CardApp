@@ -12,6 +12,7 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.BottomAppBar
@@ -32,7 +33,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.appbars.data.Body
 import com.example.appbars.data.data
 
 
@@ -40,7 +40,7 @@ import com.example.appbars.data.data
 @Composable
 fun MyApp(
     navController: NavController,
-    cardViewModel: CardViewModel = viewModel(),
+    cardViewModel: CardViewModel ,
 ) {
     val cardUiState by cardViewModel.uiState.collectAsState()
     Scaffold(
@@ -73,8 +73,8 @@ fun MyApp(
         bottomBar = {
             BottomAppBar(
                 actions = {
-                    IconButton(onClick = { /*TODO*/ }) {
-                        Icon(imageVector = Icons.Filled.Check, contentDescription = "")
+                    IconButton(onClick = {navController.navigate("LikedScreen") }) {
+                        Icon(imageVector = Icons.Filled.Favorite, contentDescription = "")
                     }
                     IconButton(onClick = { /*TODO*/ }) {
                         Icon(imageVector = Icons.Filled.Edit, contentDescription = "")
@@ -104,12 +104,11 @@ fun MyApp(
                 .padding(8.dp)) {
 
             items(data) {
-
                 BodyList(
                     body = it,
-                    like = cardUiState.likedList[it.id])
+                    like = cardUiState.likedCheckList[it.id])
                     {
-                        cardViewModel.updateFun( it.id)
+                        cardViewModel.updateFunc(id = it.id)
                     }
 
             }
@@ -117,16 +116,3 @@ fun MyApp(
     }
 }
 
-
-@Composable
-fun BodyList(
-    body: Body,
-    like:Boolean,
-    likedFunc: () -> Unit
-){
-    BodyItem(img =  body.drawableRes,
-        desc = body.stringRes,
-        liked = like,
-        likedFun = likedFunc
-    )
-}
